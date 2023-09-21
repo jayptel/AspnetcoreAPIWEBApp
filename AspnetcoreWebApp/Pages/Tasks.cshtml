@@ -1,0 +1,321 @@
+﻿@page
+@model AspnetcoreWebApp.Pages.TasksModel
+
+@{
+    ViewData["Title"] = "Task List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="mb-3">
+    <button class="btn btn-primary" id="newTaskButton">New Task</button>
+</div>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Data has been successfully saved.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Data Entry Form (initially hidden) -->
+<form id="dataEntryForm" class="d-none">
+    <div class="mb-3">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="mb-3">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" name="description" required>
+    </div>
+    <div class="mb-3">
+        <label for="isCompleted">Is Completed</label>
+        <select class="form-control" id="isCompleted" name="isCompleted">
+            <option value="" disabled selected>Select an option</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Add Task</button>
+</form>
+<div class="modal fade" id="editSuccessModal" tabindex="-1" role="dialog" aria-labelledby="editSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSuccessModalLabel">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Data has been successfully updated.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Data Entry Form for Editing (initially hidden) -->
+<form id="editDataForm" class="d-none">
+    <input type="hidden" id="editTaskId" name="editTaskId" value="">
+    <div class="mb-3">
+        <label for="editTitle">Title</label>
+        <input type="text" class="form-control" id="editTitle" name="editTitle" required>
+    </div>
+    <div class="mb-3">
+        <label for="editDescription">Description</label>
+        <input type="text" class="form-control" id="editDescription" name="editDescription" required>
+    </div>
+    <div class="mb-3">
+        <label for="editIsCompleted">Is Completed</label>
+        <select class="form-control" id="editIsCompleted" name="editIsCompleted">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+    <button type="button" class="btn btn-success" id="updateTask">Update Task</button>
+</form>
+
+<!-- View Data Modal (initially hidden) -->
+<div class="modal fade" id="viewDataModal" tabindex="-1" role="dialog" aria-labelledby="viewDataModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" id="viewDataModalDialog">
+        <div class="modal-content">
+            <div class="modal-header" style="align-content:center; display:inline-block">
+                <h5 class="modal-title" style="text-align: center;" id="viewDataModalLabel">View Task</h5>
+               
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="viewId">ID</label>
+                        <input type="text" class="form-control" id="viewId" name="viewId" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewTitle">Title</label>
+                        <input type="text" class="form-control" id="viewTitle" name="viewTitle" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewDescription">Description</label>
+                        <input type="text" class="form-control" id="viewDescription" name="viewDescription" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewIsCompleted">Is Completed</label>
+                        <select class="form-control" id="viewIsCompleted" name="viewIsCompleted" disabled>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="closeViewTask" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Is Completed</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model.Tasks)
+        {
+            <tr>
+                <td>@task.Id</td>
+                <td>@task.Title</td>
+                <td>@task.Description</td>
+                <td>@(task.IsCompleted ? "Yes" : "No")</td>
+                <td>
+                    <button class="btn btn-info" onclick="showViewForm(@task.Id)">View</button>
+                    <button class="btn btn-primary" onclick="showEditForm(@task.Id, '@task.Title', '@task.Description', '@(task.IsCompleted)')">Edit</button>
+                    <button class="btn btn-danger" onclick="deleteTask(@task.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+   
+
+    const dataEntryForm = document.getElementById("dataEntryForm");
+    const newTaskButton = document.getElementById("newTaskButton");
+    const apiUrln = 'https://localhost:7055/api/tasks'; // Replace with your API URL
+    const editDataForm = document.getElementById("editDataForm");
+    const updateTaskButton = document.getElementById("updateTask");
+    const editTaskIdInput = document.getElementById("editTaskId");
+    const editTitleInput = document.getElementById("editTitle");
+    const editDescriptionInput = document.getElementById("editDescription");
+    const editIsCompletedInput = document.getElementById("editIsCompleted");
+    const closePopButton = document.getElementById("closeViewTask");
+    var tasks = @Html.Raw(Json.Serialize(Model.Tasks));
+
+    function toggleFormVisibility(formElement) {
+        // Check if the form is currently visible
+        const isFormVisible = !formElement.classList.contains("d-none");
+
+        // Hide both forms
+        dataEntryForm.classList.add("d-none");
+        editDataForm.classList.add("d-none");
+
+        // If the clicked form is not currently visible, show it
+        if (!isFormVisible) {
+            formElement.classList.remove("d-none");
+        }
+    }
+    
+    
+    newTaskButton.addEventListener("click", function () {
+        toggleFormVisibility(dataEntryForm);
+    });
+   
+    dataEntryForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const isCompleted = document.getElementById("isCompleted").value === "true";
+
+        const task = {
+            title,
+            description,
+            isCompleted
+        };
+
+        fetch(apiUrln, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task)
+        })
+            .then(response => response.json())
+            .then(data => {
+                window.location.reload();
+                $('#successModal').modal('show');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    function showEditForm(taskId, title, description, isCompleted) {
+        // console.log("showEditForm called with taskId:", taskId);
+        // console.log("isCompleted:", isCompleted);
+
+        toggleFormVisibility(editDataForm);
+
+        editTaskIdInput.value = taskId;
+        editTitleInput.value = title;
+        editDescriptionInput.value = description;
+        if (isCompleted === "True") {
+            editIsCompletedInput.value = "true";
+        } else { 
+     
+            editIsCompletedInput.value = "false";
+        }
+        // Find the option to select based on the value from the database
+        // if (isCompleted === "True") {
+        //     editIsCompletedInput.value = "true";
+        // } 
+        // if (isCompleted === "False")
+        // { 
+        //     editIsCompletedInput.value = "false";
+        // }
+        //console.log("editIsCompletedInput value:", editIsCompletedInput.value);
+    }
+
+
+    updateTaskButton.addEventListener("click", function () {
+        const editedTask = {
+            id: editTaskIdInput.value,
+            title: editTitleInput.value,
+            description: editDescriptionInput.value,
+            isCompleted: editIsCompletedInput.value === "true"
+        };
+
+        fetch(`${apiUrln}/${editedTask.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(editedTask)
+        })
+            .then(response => {
+                console.log('Response:', response);
+                return response.json();
+            })
+            .then(updatedTaskData => {
+               
+                $('#editSuccessModal').modal('show');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    });
+
+
+    function deleteTask(taskId) {
+        fetch(`${apiUrln}/${taskId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.error('Error:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function showViewForm(taskId) {
+        fetch(`${apiUrln}/${taskId}`)
+            .then(response => response.json())
+            .then(task => {
+                document.getElementById("viewId").value = task.id;
+                document.getElementById("viewTitle").value = task.title;
+                document.getElementById("viewDescription").value = task.description;
+                document.getElementById("viewIsCompleted").value = task.isCompleted.toString();
+                $('#viewDataModal').modal('show');
+            })
+            .catch(error => {
+                console.error(`Error fetching task with ID ${taskId}: ${error}`);
+            });
+
+        // Close the modal when the "Close" button is clicked
+        
+    }
+    closePopButton.addEventListener("click", function () {
+        //console.log("closePopbutton click");
+        $('#viewDataModal').modal('hide');
+    });
+    function findTaskById(taskId) {
+        // Assuming your tasks are stored in an array named 'tasks'
+        return tasks.find(task => task.Id === taskId);
+    }
+    
+</script>

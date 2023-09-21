@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspnetcoreAPIWEBApp", "AspnetcoreAPIWEBApp\AspnetcoreAPIWEBApp.csproj", "{9DCD108A-0216-4C49-B6F0-04163033C1A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspnetcoreWebApp", "AspnetcoreWebApp\AspnetcoreWebApp.csproj", "{03D4C704-FDA2-4112-BF03-007A401001F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DCD108A-0216-4C49-B6F0-04163033C1A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DCD108A-0216-4C49-B6F0-04163033C1A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DCD108A-0216-4C49-B6F0-04163033C1A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DCD108A-0216-4C49-B6F0-04163033C1A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03D4C704-FDA2-4112-BF03-007A401001F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D4C704-FDA2-4112-BF03-007A401001F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D4C704-FDA2-4112-BF03-007A401001F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D4C704-FDA2-4112-BF03-007A401001F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F42C963-0EEB-449D-B7E5-A1D5B88D86F6}
+	EndGlobalSection
+EndGlobal
