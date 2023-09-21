@@ -8,85 +8,77 @@
 <h1>@ViewData["Title"]</h1>
 
 <div class="mb-3">
-    <button class="btn btn-primary" id="newTaskButton">New Task</button>
+    <button class="btn btn-primary" onclick="AddViewForm()">Add Task</button>
 </div>
 <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" id="AddDataModalDialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="successModalLabel">Success</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="modal-header" style="align-content:center; display:inline-block">
+                <h5 class="modal-title" style="text-align: center;" id="AddDataModalLabel">Add New Task</h5>
             </div>
             <div class="modal-body">
-                Data has been successfully saved.
+                <form>
+                    <div class="mb-3">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="isCompleted">Is Completed</label>
+                        <select class="form-control" id="isCompleted" name="isCompleted">
+                            <option value="" disabled selected>Select an option</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Data Entry Form (initially hidden) -->
-<form id="dataEntryForm" class="d-none">
-    <div class="mb-3">
-        <label for="title">Title</label>
-        <input type="text" class="form-control" id="title" name="title" required>
-    </div>
-    <div class="mb-3">
-        <label for="description">Description</label>
-        <input type="text" class="form-control" id="description" name="description" required>
-    </div>
-    <div class="mb-3">
-        <label for="isCompleted">Is Completed</label>
-        <select class="form-control" id="isCompleted" name="isCompleted">
-            <option value="" disabled selected>Select an option</option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-success">Add Task</button>
-</form>
-<div class="modal fade" id="editSuccessModal" tabindex="-1" role="dialog" aria-labelledby="editSuccessModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editSuccessModalLabel">Success</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Data has been successfully updated.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <button type="submit" class="btn btn-success" id="dataEntryForm">Add Task</button>
+                <button type="button" class="btn btn-primary" id="closeAddViewFormTask" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Data Entry Form for Editing (initially hidden) -->
-<form id="editDataForm" class="d-none">
-    <input type="hidden" id="editTaskId" name="editTaskId" value="">
-    <div class="mb-3">
-        <label for="editTitle">Title</label>
-        <input type="text" class="form-control" id="editTitle" name="editTitle" required>
+<div class="modal fade" id="editSuccessModal" tabindex="-1" role="dialog" aria-labelledby="editSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" id="editDataModalDialog">
+        <div class="modal-content">
+            <div class="modal-header" style="align-content:center; display:inline-block">
+                <h5 class="modal-title" style="text-align: center;" id="editSuccessModalLabel">Edit Task</h5>
+
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="editTaskId" name="editTaskId" value="">
+                    <div class="mb-3">
+                        <label for="editTitle">Title</label>
+                        <input type="text" class="form-control" id="editTitle" name="editTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescription">Description</label>
+                        <input type="text" class="form-control" id="editDescription" name="editDescription" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editIsCompleted">Is Completed</label>
+                        <select class="form-control" id="editIsCompleted" name="editIsCompleted">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="updateTask" data-dismiss="modal">Update Task</button>
+                <button type="button" class="btn btn-primary" id="closeeditSuccessModalTask" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="editDescription">Description</label>
-        <input type="text" class="form-control" id="editDescription" name="editDescription" required>
-    </div>
-    <div class="mb-3">
-        <label for="editIsCompleted">Is Completed</label>
-        <select class="form-control" id="editIsCompleted" name="editIsCompleted">
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-        </select>
-    </div>
-    <button type="button" class="btn btn-success" id="updateTask">Update Task</button>
-</form>
+</div>
 
 <!-- View Data Modal (initially hidden) -->
 <div class="modal fade" id="viewDataModal" tabindex="-1" role="dialog" aria-labelledby="viewDataModalLabel" aria-hidden="true">
@@ -126,6 +118,28 @@
     </div>
 </div>
 
+<!--  Data Delete Message Box (initially hidden) -->
+<div class="modal fade" id="comfirmationDeleteBox" tabindex="-1" role="dialog" aria-labelledby="comfirmationDeleteBoxLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" id="ComfirmationDeleteBoxDialog">
+        <div class="modal-content">
+            <div class="modal-header" style="align-content:center; display:inline-block">
+                <h5 class="modal-title" style="text-align: center;" id="ComfirmationDeleteBoxLabel">View Task</h5>
+
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <h4 class="modal-title" style="text-align: center;" id="ComfirmationDeleteBoxLabel">Are you sure to delete?</h4>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="oKComfirmationDeleteBox" onclick="oKComfirmationDeleteBoxTask()" data-dismiss="modal">Deleted</button>
+                <button type="button" class="btn btn-primary" id="closeComfirmationDeleteBox" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <table class="table">
@@ -168,28 +182,52 @@
     const editDescriptionInput = document.getElementById("editDescription");
     const editIsCompletedInput = document.getElementById("editIsCompleted");
     const closePopButton = document.getElementById("closeViewTask");
+  
+    const editSuccessModalclosePopButton = document.getElementById("closeeditSuccessModalTask");
+    const successModalclosePopButton = document.getElementById("closeAddViewFormTask");
+    const closeComfirmationDeleteButton = document.getElementById("closeComfirmationDeleteBox");
     var tasks = @Html.Raw(Json.Serialize(Model.Tasks));
 
-    function toggleFormVisibility(formElement) {
-        // Check if the form is currently visible
-        const isFormVisible = !formElement.classList.contains("d-none");
+    // function toggleFormVisibility(formElement) {
+    //     // Check if the form is currently visible
+    //     const isFormVisible = !formElement.classList.contains("d-none");
 
-        // Hide both forms
-        dataEntryForm.classList.add("d-none");
-        editDataForm.classList.add("d-none");
+    //     // Hide both forms
+    //     dataEntryForm.classList.add("d-none");
+    //     editDataForm.classList.add("d-none");
 
-        // If the clicked form is not currently visible, show it
-        if (!isFormVisible) {
-            formElement.classList.remove("d-none");
-        }
+    //     // If the clicked form is not currently visible, show it
+    //     if (!isFormVisible) {
+    //         formElement.classList.remove("d-none");
+    //     }
+    // }
+
+    closeComfirmationDeleteButton.addEventListener("click", function () {
+        //console.log("closePopbutton click");
+
+        $('#comfirmationDeleteBox').modal('hide');
+
+    });
+    editSuccessModalclosePopButton.addEventListener("click", function () {
+        //console.log("closePopbutton click");
+
+        $('#editSuccessModal').modal('hide');
+
+    });
+
+    successModalclosePopButton.addEventListener("click", function () {
+        //console.log("closePopbutton click");
+
+        $('#successModal').modal('hide');
+
+    });
+    function AddViewForm() {
+        $('#successModal').modal('show');
+        
     }
     
-    
-    newTaskButton.addEventListener("click", function () {
-        toggleFormVisibility(dataEntryForm);
-    });
    
-    dataEntryForm.addEventListener("submit", function (e) {
+    dataEntryForm.addEventListener("click", function (e) {
         e.preventDefault();
         const title = document.getElementById("title").value;
         const description = document.getElementById("description").value;
@@ -221,8 +259,8 @@
     function showEditForm(taskId, title, description, isCompleted) {
         // console.log("showEditForm called with taskId:", taskId);
         // console.log("isCompleted:", isCompleted);
-
-        toggleFormVisibility(editDataForm);
+        $('#editSuccessModal').modal('show');
+        //toggleFormVisibility(editDataForm);
 
         editTaskIdInput.value = taskId;
         editTitleInput.value = title;
@@ -233,15 +271,7 @@
      
             editIsCompletedInput.value = "false";
         }
-        // Find the option to select based on the value from the database
-        // if (isCompleted === "True") {
-        //     editIsCompletedInput.value = "true";
-        // } 
-        // if (isCompleted === "False")
-        // { 
-        //     editIsCompletedInput.value = "false";
-        // }
-        //console.log("editIsCompletedInput value:", editIsCompletedInput.value);
+      
     }
 
 
@@ -275,8 +305,17 @@
 
     });
 
-
     function deleteTask(taskId) {
+        // Show the confirmation dialog here, if needed
+        $('#comfirmationDeleteBox').modal('show');
+
+        // Attach the taskId to the "Deleted" button click event
+        $('#oKComfirmationDeleteBox').off('click').on('click', function () {
+            oKComfirmationDeleteBoxTask(taskId);
+        });
+        
+    }
+    function oKComfirmationDeleteBoxTask(taskId) {
         fetch(`${apiUrln}/${taskId}`, {
             method: 'DELETE'
         })
@@ -291,6 +330,7 @@
                 console.error('Error:', error);
             });
     }
+    
 
     function showViewForm(taskId) {
         fetch(`${apiUrln}/${taskId}`)
@@ -311,7 +351,9 @@
     }
     closePopButton.addEventListener("click", function () {
         //console.log("closePopbutton click");
+       
         $('#viewDataModal').modal('hide');
+      
     });
     function findTaskById(taskId) {
         // Assuming your tasks are stored in an array named 'tasks'
